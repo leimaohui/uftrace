@@ -357,6 +357,11 @@ static void setup_child_environ(struct opts *opts, int argc, char *argv[])
 	put_libmcount_path(libpath);
 	setenv("XRAY_OPTIONS", "patch_premain=false", 1);
 	setenv("GLIBC_TUNABLES", "glibc.cpu.hwcaps=-IBT,-SHSTK", 1);
+
+#ifdef ARCH_CET_DISABLE
+	/* HACK: for Ubuntu 20.04  (3 = GNU_PROPERTY_X86_FEATURE_1_(IBT|SHSTK)) */
+	prctl(ARCH_CET_DISABLE, 3, 0, 0, 0);
+#endif
 }
 
 static uint64_t calc_feat_mask(struct opts *opts)
