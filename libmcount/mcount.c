@@ -704,8 +704,8 @@ static void segv_handler(int sig, siginfo_t *si, void *ctx)
 			break;
 
 		if (si->si_code == sigsegv_codes[i].code) {
-			pr_warn("Segmentation fault: %s (addr: %p)\n",
-			       sigsegv_codes[i].msg, si->si_addr);
+			pr_warn("Segmentation fault: %s (addr: %p, error: %x)\n",
+				sigsegv_codes[i].msg, si->si_addr, si->si_errno);
 			break;
 		}
 	}
